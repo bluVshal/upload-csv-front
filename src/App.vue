@@ -1,6 +1,6 @@
 <template>
   <LoadingSpinner 
-    v-if="isSendingToApi" 
+    v-if="isSendingToApi || isUploadingFile" 
     :message="loadingMessage" 
   />
   <div>
@@ -88,6 +88,7 @@ export default {
       selectedItems: [],
       token: '',
       isSendingToApi: false,
+      isUploadingFile: false,
       loadingMessage: 'Processing...',
       apiErrors: [],
     };
@@ -108,6 +109,10 @@ export default {
     uploadFile() {
       if (!this.selectedFile) return;
 
+      // Show loading spinner
+      this.isUploadingFile = true;
+      this.loadingMessage = 'Uploading CSV file...';
+
       // Create a FormData object
       const formData = new FormData();
       // Append the file to the FormData object with a key (e.g., 'file')
@@ -121,6 +126,7 @@ export default {
         }
       })
         .then(response => {
+          this.isUploadingFile = false;
           this.loading = 1;
           this.responseData = response.data.data;
           this.responseData = [].concat(response.data.data);
@@ -128,6 +134,7 @@ export default {
           this.loading = 2;
         })
         .catch(error => {
+          this.isUploadingFile = false;
           console.error('Error uploading file:', error);
           alert('File upload failed.');
           this.error = error;
