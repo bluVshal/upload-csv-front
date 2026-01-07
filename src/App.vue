@@ -114,7 +114,7 @@ export default {
       formData.append('file', this.selectedFile);
 
       // Send the POST request to your Node.js endpoint
-      axios.post('http://localhost:65441/api/upload', formData, {
+      axios.post('https://upload-csv-back.onrender.com/api/upload', formData, {
         headers: {
           // This header is important for file uploads
           'Content-Type': 'multipart/form-data'
@@ -168,7 +168,7 @@ export default {
       this.isSendingToApi = true;
       this.loadingMessage = `Sending ${this.sendToAPI.length} record(s) to API...`;
 
-      axios.post('http://localhost:65441/api/send-to-api', payload, {
+      axios.post('https://upload-csv-back.onrender.com/api/send-to-api', payload, {
         headers: {
           'Content-Type': 'application/json'
         }
